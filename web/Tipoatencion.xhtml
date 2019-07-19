@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+       <title>VETERINARIA MASCOTA</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body>
+
+        <ui:composition template="./Menu.xhtml">
+
+            <ui:define name="content">
+                <h1 style="background-color: #ffffff"></h1>
+                <h:form id="from">
+                    <p:panel style="width: 60%">
+                        <p:growl id="msgs" showDetail="true" />
+
+                        <p:panel id="basic" header="TIPO DE ATENCION">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:outputLabel value="Codigo:"/>
+                                <p:inputText readonly="true" value="#{tipoatencionBean.tipoatencion.idtipoatencion=='0'?'':tipoatencionBean.tipoatencion.idtipoatencion}" required="true"/>
+                                <p:outputLabel value="Descripcion:"/>
+                                <p:inputText value="#{tipoatencionBean.tipoatencion.descripcion}"/>
+                            </h:panelGrid>
+                            <p:commandButton rendered="#{!tipoatencionBean.banderaSelect}" value="Guardar" action="#{tipoatencionBean.guardarTipoatencion()}" update=":data:datatable,:from"/>
+                            <p:commandButton rendered="#{tipoatencionBean.banderaSelect}" value="Actualizar" action="#{tipoatencionBean.actualizarTipoatencion()}" update=":data:datatable,:from"/>
+                            <p:commandButton  value="Nuevo" action="#{tipoatencionBean.limpiar()}" update=":data:datatable,:from"/>
+
+                        </p:panel>
+                    </p:panel>
+                </h:form>
+                <h1 style="background-color: #ffffff"></h1>
+                <p:panel>
+                    <h:form id="data">
+                        <p:dataTable rowKey="#{tipoatencion.idtipoatencion}" selection="#{tipoatencionBean.tipoatencion}" selectionMode="single" 
+                                     id="datatable" var="tipoatencion" style="width: 60%" value="#{tipoatencionBean.listarTipoatencion()}">
+                            <p:ajax update=":from" event="rowSelect" listener="#{tipoatencionBean.selectBandera()}"/>
+                            <p:column headerText="Codigo">
+                                <h:outputText value="#{tipoatencion.idtipoatencion}"/>
+                            </p:column>
+                            <p:column headerText="Descripcion">
+                                <h:outputText value="#{tipoatencion.descripcion}"/>
+                            </p:column>
+
+                            <p:column headerText="Accion">
+                                <p:commandButton value="Eliminar" onclick="PF('dgEliminar').show();">
+                                    <f:setPropertyActionListener target="#{tipoatencionBean.tipoatencion}" value="#{tipoatencion}" />
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+                <p:dialog id="dig" header="Eliminar registro" widgetVar="dgEliminar" showEffect="explode" hideEffect="explode" modal="true">
+                    <h:form id="fromEliminar" style="text-align:center;">
+                        <p:commandButton value="Si" action="#{tipoatencionBean.eliminar()}" update=":data:datatable" oncomplete="PF('dgEliminar').hide();"/>
+                        <p:commandButton value="No" onclick="PF('dgEliminar').hide();" />
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+       <title>VETERINARIA MASCOTA</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top" class="top">
+
+            <ui:insert name="top">
+                <h:form> 
+                    <p:panel>
+                        <p:outputLabel value="BIENVENIDOS A LA VETERINARIA"/>
+                        <p:megaMenu>
+                            <p:submenu label="INICIO">
+                              
+                            </p:submenu>
+                            <p:submenu label="Regitrar">
+                                <p:column>
+
+                                    <p:submenu label="Regitrar Usuario">
+                                        <p:menuitem value="Registrar" action="/Usuario"/> 
+                                    </p:submenu>
+                                    <p:submenu label="Regitrar Personal">
+                                        <p:menuitem value="Registrar" action="/Personal"/> 
+                                    </p:submenu>
+                                    <p:submenu label="Regitrar Persona">
+                                        <p:menuitem value="Registrar" action="/Persona"/> 
+                                    </p:submenu>
+              
+                                </p:column>
+                            </p:submenu>
+                               <p:submenu label="Mantenimiento">
+                                <p:column>
+                                    <p:submenu label="Mantenimiento Cliente">
+                                        <p:menuitem value="Registrar" action="/Cliente"/> 
+                                    </p:submenu>
+                                    <p:submenu label="Mantenimiento Mascota">
+                                        <p:menuitem value="Registrar" action="/Mascota"/>
+                                    </p:submenu>
+                                    <p:submenu label="Mantenimiento Mascotaporcliente">
+                                        <p:menuitem value="Registrar" action="/Mascotaporcliente"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Reservar cita">
+                                <p:column>
+                                    <p:submenu label="Reservar">
+                                        <p:menuitem value="Registrar" action="/ReservarCita"/>
+                                    </p:submenu>
+                                    <p:submenu label="Tipo de Reserva">
+                                        <p:menuitem value="Registrar" action="/Tiporeserva"/> 
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Atencion Diaria">
+                                <p:column>
+                                    <p:submenu label="Atencion">
+                                        <p:menuitem value="Registrar" action="/Atencion"/>
+                                    </p:submenu>
+                                    <p:submenu label="Tipo de Atencion">
+                                        <p:menuitem value="Registrar" action="/Tipoatencion"/> 
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                        </p:megaMenu>
+                    </p:panel>
+
+
+                </h:form>
+            </ui:insert>
+
+        </div>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content"> </ui:insert>
+
+        </div>
+
+    </h:body>
+
+</html>

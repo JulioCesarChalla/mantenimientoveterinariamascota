@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/07/2019 10:48:48 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entidades.Mascota" table="mascota" catalog="veterinariamascota" optimistic-lock="version">
+        <id name="idMascota" type="java.lang.Integer">
+            <column name="idMascota" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreMascota" type="string">
+            <column name="nombreMascota" length="45" not-null="true" />
+        </property>
+        <property name="colorMascota" type="string">
+            <column name="colorMascota" length="45" not-null="true" />
+        </property>
+        <property name="raza" type="string">
+            <column name="raza" length="45" not-null="true" />
+        </property>
+        <set name="mascotaporclientes" table="mascotaporcliente" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idMascota" not-null="true" />
+            </key>
+            <one-to-many class="entidades.Mascotaporcliente" />
+        </set>
+    </class>
+</hibernate-mapping>

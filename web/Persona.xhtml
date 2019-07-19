@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>VETERINARIA MASCOTA</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body>
+
+        <ui:composition template="./Menu.xhtml">
+
+            <ui:define name="content">
+                <h1 style="background-color: #ffffff"></h1>
+                <h:form id="from">
+                    <p:panel style="width: 60%">
+                        <p:growl id="msgs" showDetail="true" />
+
+                        <p:panel id="basic" header="MANTENIMIENTO DE PERSONA">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:outputLabel value="Codigo:"/>
+                                <p:inputText readonly="true" value="#{personaBean.persona.idPersona=='0'?'':personaBean.persona.idPersona}" required="true"/>
+                                <p:outputLabel value="Nombre"/>
+                                <p:inputText value="#{personaBean.persona.nombre}"/>
+                                <p:outputLabel value="Apellido"/>
+                                <p:inputText value="#{personaBean.persona.apellido}"/>
+                                <p:outputLabel value="Telefono"/>
+                                <p:inputText value="#{personaBean.persona.telefono}"/>
+                                <p:outputLabel value="Email"/>
+                                <p:inputText value="#{personaBean.persona.email}"/>
+                            </h:panelGrid>
+                            <p:commandButton rendered="#{!personaBean.banderaSelect}" value="Guardar" action="#{personaBean.guardarPersona()}" update=":data:datatable,:from"/>
+                            <p:commandButton rendered="#{personaBean.banderaSelect}" value="Actualizar" action="#{personaBean.actualizarPersona()}" update=":data:datatable,:from"/>
+                            <p:commandButton  value="Nuevo" action="#{personaBean.limpiar()}" update=":data:datatable,:from"/>
+
+                        </p:panel>
+                    </p:panel>
+                </h:form>
+                <h1 style="background-color: #ffffff"></h1>
+                <p:panel>
+                    <h:form id="data">
+                        <p:dataTable rowKey="#{persona.idPersona}" selection="#{personaBean.persona}" selectionMode="single" 
+                                     id="datatable" var="persona" style="width: 60%" value="#{personaBean.listarPersonas()}">
+                            <p:ajax update=":from" event="rowSelect" listener="#{personaBean.selectBandera()}"/>
+                            <p:column headerText="Codigo">
+                                <h:outputText value="#{persona.idPersona}"/>
+                            </p:column>
+                            <p:column headerText="Nombres">
+                                <h:outputText value="#{persona.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Apellidos">
+                                <h:outputText value="#{persona.apellido}"/>
+                            </p:column>
+                            <p:column headerText="telefono">
+                                <h:outputText value="#{persona.telefono}"/>
+                            </p:column>
+                            <p:column headerText="Email">
+                                <h:outputText value="#{persona.email}"/>
+                            </p:column>
+                            <p:column headerText="Accion">
+                                <p:commandButton value="Eliminar" onclick="PF('dgEliminar').show();">
+                                    <f:setPropertyActionListener target="#{personaBean.persona}" value="#{persona}" />
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+                <p:dialog id="dig" header="Eliminar registro" widgetVar="dgEliminar" showEffect="explode" hideEffect="explode" modal="true">
+                    <h:form id="fromEliminar" style="text-align:center;">
+                        <p:commandButton value="Si" action="#{personaBean.eliminar()}" update=":data:datatable" oncomplete="PF('dgEliminar').hide();"/>
+                        <p:commandButton value="No" onclick="PF('dgEliminar').hide();" />
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

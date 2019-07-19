@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+     <title>VETERINARIA MASCOTA</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body>
+
+        <ui:composition template="./Menu.xhtml">
+
+            <ui:define name="content">
+                <h1 style="background-color: #ffffff"></h1>
+                <h:form id="from">
+                    <p:panel style="width: 60%">
+                        <p:growl id="msgs" showDetail="true" />
+
+                        <p:panel id="basic" header="RESERVAR CITAS DE LOS CLIENTES">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:outputLabel value="Codigo:"/>
+                                <p:inputText readonly="true" value="#{reservarCitaBean.reservarcita.idreservarcita=='0'?'':reservarCitaBean.reservarcita.idreservarcita}" required="true"/>
+                                <p:outputLabel value="Fecha de Atencion"/>
+                                <p:calendar value="#{reservarCitaBean.reservarcita.fecha}"/>
+                                <p:outputLabel value="Cliente"/>
+                                <p:selectOneMenu value="#{reservarCitaBean.codigoCliente}">
+                                    <f:selectItem itemLabel="--seleccione--"/>
+                                    <f:selectItems value="#{reservarCitaBean.listaCliente}" var="cliente" itemLabel="#{cliente.persona.nombre}" itemValue="#{cliente.codigoCliente}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Personal"/>
+                                <p:selectOneMenu value="#{reservarCitaBean.idPersonal}">
+                                    <f:selectItem itemLabel="--seleccione--"/>
+                                    <f:selectItems value="#{reservarCitaBean.listaPersonal}" var="personal" itemLabel="#{personal.persona.nombre}" itemValue="#{personal.idpersonal}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Tipo de Reserva"/>
+                                <p:selectOneMenu value="#{reservarCitaBean.idTiporeserva}">
+                                    <f:selectItem itemLabel="--seleccione--"/>
+                                    <f:selectItems value="#{reservarCitaBean.listaTipoReserva}" var="tp" itemLabel="#{tp.descripcion}" itemValue="#{tp.idtiporeserva}"/>
+                                </p:selectOneMenu>
+
+                            </h:panelGrid>
+                            <p:commandButton rendered="#{!reservarCitaBean.banderaSelect}" value="Guardar" action="#{reservarCitaBean.guardarReservarCita()}" update=":data:datatable,:from"/>
+                            <p:commandButton rendered="#{reservarCitaBean.banderaSelect}" value="Actualizar" action="#{reservarCitaBean.actualizarReservarCita()}" update=":data:datatable,:from"/>
+                            <p:commandButton  value="Nuevo" action="#{reservarCitaBean.limpiar()}" update=":data:datatable,:from"/>
+
+                        </p:panel>
+                    </p:panel>
+                </h:form>
+                <h1 style="background-color: #ffffff"></h1>
+                <p:panel>
+                    <h:form id="data">
+                        <p:dataTable rowKey="#{reservarcita}" selection="#{reservarCitaBean.reservarcita}" selectionMode="single" 
+                                     id="datatable" var="reservarcita" style="width: 60%" value="#{reservarCitaBean.listarReservarCita()}">
+                            <p:ajax update=":from" event="rowSelect" listener="#{reservarCitaBean.selectBandera()}"/>
+                            <p:column headerText="Codigo">
+                                <h:outputText value="#{reservarcita.idreservarcita}"/>
+                            </p:column>
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{reservarcita.fecha}"/>
+                            </p:column>
+                            <p:column headerText="Cliente">
+                                <h:outputText value="#{reservarcita.cliente.persona.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Personal">
+                                <h:outputText value="#{reservarcita.personal.persona.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Accion">
+                                <p:commandButton value="Eliminar" onclick="PF('dgEliminar').show();">
+                                    <f:setPropertyActionListener target="#{reservarCitaBean.reservarcita}" value="#{reservarcita}" />
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+                <p:dialog id="dig" header="Eliminar registro" widgetVar="dgEliminar" showEffect="explode" hideEffect="explode" modal="true">
+                    <h:form id="fromEliminar" style="text-align:center;">
+                        <p:commandButton value="Si" action="#{reservarCitaBean.eliminar()}" update=":data:datatable" oncomplete="PF('dgEliminar').hide();"/>
+                        <p:commandButton value="No" onclick="PF('dgEliminar').hide();" />
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/07/2019 10:48:48 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entidades.Personal" table="personal" catalog="veterinariamascota" optimistic-lock="version">
+        <id name="idpersonal" type="java.lang.Integer">
+            <column name="idpersonal" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="persona" class="entidades.Persona" fetch="select">
+            <column name="idPersona" not-null="true" />
+        </many-to-one>
+        <property name="dni" type="string">
+            <column name="dni" length="8" not-null="true" />
+        </property>
+        <property name="cargo" type="string">
+            <column name="cargo" length="45" />
+        </property>
+        <set name="atencions" table="atencion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idpersonal" not-null="true" />
+            </key>
+            <one-to-many class="entidades.Atencion" />
+        </set>
+        <set name="reservarcitas" table="reservarcita" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idpersonal" not-null="true" />
+            </key>
+            <one-to-many class="entidades.Reservarcita" />
+        </set>
+    </class>
+</hibernate-mapping>
